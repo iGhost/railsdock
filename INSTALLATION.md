@@ -8,3 +8,21 @@
 
 #### Creating application image
 `docker build -t drkiq -f Dockerfile .`
+
+#### Creating volumes for Redis and Postgres
+```bash
+docker volume create --name drkiq-postgres
+docker volume create --name drkiq-redis
+```
+
+#### Run docker-compose to start the whole stack
+`docker-compose up`
+
+#### Creating database
+```bash
+docker-compose run drkiq rake db:reset
+docker-compose run drkiq rake db:migrate
+```
+
+#### Finally start the whole stack
+`docker-compose up`
