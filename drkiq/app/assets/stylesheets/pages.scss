@@ -1,3 +1,17 @@
 // Place all the styles related to the Pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+body {
+  background-color: #2E2F30;
+  color: #cccccc;
+  font-family: "Geneva", Arial, sans-serif;
+}
+h1, h2, h3, h4 {
+  font-family: Georgia, sans-serif;
+}
+h1 {
+  color: #00af00;
+}
+a, a:visited {
+  color: #6aaafd;
+}

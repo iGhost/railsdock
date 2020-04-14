@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: Simple universal test Article
+  description: You need to restart the Rails server to pick up new jobs, so hit CTRL+C to stop everything, and then run docker-compose up again.
+  content: Builds, (re)creates, starts, and attaches to containers for a service. Unless they are already running, this command also starts any linked services. ... When the command exits, all containers are stopped. Running docker-compose up -d starts the containers in the background and leaves them running.
+
+two:
+  title: Another simple testing article about Docker
+  description: How do I start a docker compose container?
+  content: Docker is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package.
