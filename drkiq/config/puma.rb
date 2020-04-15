@@ -26,13 +26,22 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # processes).
 #
 # workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+workers Integer(ENV['WEB_CONCURRENCY'] || [1, `grep -c processor /proc/cpuinfo`.to_i].max)
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
 # before forking the application. This takes advantage of Copy On Write
 # process behavior so workers use less memory.
 #
-# preload_app!
+preload_app!
 
 # Allow puma to be restarted by `rails restart` command.
-plugin :tmp_restart
+# plugin :tmp_restart
+
+stdout_redirect(stdout = '/dev/stdout', stderr = '/dev/stderr', append = true)
+
+on_worker_boot do
+  # Worker specific setup for Rails 4.1+
+  # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
+  ActiveRecord::Base.establish_connection
+end
