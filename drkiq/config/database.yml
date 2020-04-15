@@ -5,16 +5,16 @@ default: &default
 
 development:
   <<: *default
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_dev') %>
+  url: <%= ENV['DATABASE_URL'].gsub('?stage?', '_dev') %>
 
 test:
   <<: *default
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_test') %>
+  url: <%= ENV['DATABASE_URL'].gsub('?stage?', '_test') %>
 
 staging:
   <<: *default
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_staging') %>
+  url: <%= ENV['DATABASE_URL'].gsub('?stage?', '_staging') %>
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_production') %>
+  url: <%= ENV['DATABASE_URL'].gsub('?stage?', '_production') %>
