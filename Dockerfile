@@ -1,28 +1,30 @@
 # Dockerfile - Development environment
-FROM ruby:2.7.1
+FROM ruby:2.7-alpine
 MAINTAINER Ghost
-
-#ARG USER_ID
-#ARG GROUP_ID
-
-#RUN addgroup --gid $GROUP_ID user
-#RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
 
 ENV INSTALL_PATH /opt/app
 RUN mkdir -p $INSTALL_PATH
 
+#nokogiri
+RUN apk add --no-cache --update \
+  build-base \
+  libxml2-dev \
+  libxslt-dev \
+  postgresql-dev
+
+RUN bundle config build.nokogiri --use-system-libraries
+
 # nodejs
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y --no-install-recommends nodejs yarn
+RUN apk add --update --no-cache nodejs yarn ruby-nokogiri
 
 # rails
-RUN gem install rails bundler
+RUN gem install bundler
 COPY drkiq/Gemfile Gemfile
 WORKDIR /opt/app/drkiq
-RUN bundle install
+RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3 --no-document
 
 #RUN chown -R user:user /opt/app
 USER $USER_ID
 VOLUME ["$INSTALL_PATH/public"]
 CMD bundle exec unicorn -c config/unicorn.rb
+#CMD bundle exec puma -C config/puma.rb
